@@ -1,0 +1,23 @@
+services:
+  backend:
+    build: ./backend
+    container_name: movie-card-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - SILICONFLOW_BASE_URL=https://api.siliconflow.cn/v1
+      - SILICONFLOW_MODEL=Qwen/Qwen2.5-7B-Instruct
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: movie-card-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
